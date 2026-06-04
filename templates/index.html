@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Tracker</h1>
+        
+        <div class="total-card">
+            <h2>Total Money Spent: ${{ "%.2f"|format(total) }}</h2>
+        </div>
+
+        <div class="form-container">
+            <h3>Add New Expense</h3>
+            <form action="/add" method="POST">
+                <input type="text" name="category" placeholder="Category (e.g., Food, Transit)" required>
+                <input type="number" name="amount" step="0.01" placeholder="Amount ($)" required>
+                <input type="text" name="description" placeholder="Description/Notes">
+                <button type="submit">Add Expense</button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h3>History</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.date }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>${{ "%.2f"|format(expense.amount) }}</td>
+                        <td>{{ expense.description }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">No expenses recorded yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
