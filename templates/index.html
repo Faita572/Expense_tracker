@@ -7,50 +7,92 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <div class="background-blur blur-1"></div>
+    <div class="background-blur blur-2"></div>
     <div class="container">
-        <h1>Tracker</h1>
-        
-        <div class="total-card">
-            <h2>Total Money Spent: ${{ "%.2f"|format(total) }}</h2>
-        </div>
-
-        <div class="form-container">
-            <h3>Add New Expense</h3>
-            <form action="/add" method="POST">
-                <input type="text" name="category" placeholder="Category (e.g., Food, Transit)" required>
-                <input type="number" name="amount" step="0.01" placeholder="Amount ($)" required>
-                <input type="text" name="description" placeholder="Description/Notes">
-                <button type="submit">Add Expense</button>
-            </form>
-        </div>
-
-        <div class="table-container">
-            <h3>History</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for expense in expenses %}
-                    <tr>
-                        <td>{{ expense.date }}</td>
-                        <td>{{ expense.category }}</td>
-                        <td>${{ "%.2f"|format(expense.amount) }}</td>
-                        <td>{{ expense.description }}</td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="4" style="text-align: center;">No expenses recorded yet.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+       <header class="hero">
+            <div class="hero-text">
+                <h1>Expense Tracker</h1>
+                <p>Track spending, stay organized, and understand where your money goes.</p>
+            </div>
+            <div class="hero-badge">Smart Money Flow</div>
+        </header>
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Spent</h3>
+                <p>${{ total_spent }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>This Month</h3>
+                <p>${{ monthly_total }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Entries</h3>
+                <p>{{ expenses|length }}</p>
+            </div>
+        </section>
+        <section class="main-grid">
+            <div class="card form-card">
+                <h2>Add New Expense</h2>
+                <form action="{{ url_for('add_expense') }}" method="POST" class="expense-form">
+                    <input type="text" name="title" placeholder="Expense title" required>
+                    <input type="number" step="0.01" name="amount" placeholder="Amount" required>
+                    <input type="text" name="category" placeholder="Category (Food, Travel, Bills)" required>
+                    <input type="date" name="expense_date" required>
+                    <button type="submit">Add Expense</button>
+                </form>
+            </div>
+            <div class="card summary-card">
+                <h2>Category Summary</h2>
+                {% if category_summary %}
+                    <div class="category-list">
+                        {% for category, total in category_summary.items() %}
+                            <div class="category-item">
+                                <span>{{ category }}</span>
+                                <strong>${{ "%.2f"|format(total) }}</strong>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="empty-text">No expenses added yet.</p>
+                {% endif %}
+            </div>
+        </section>
+        <section class="card table-card">
+            <h2>Recent Expenses</h2>
+            {% if expenses %}
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Amount</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for expense in expenses %}
+                            <tr>
+                                <td>{{ expense.title }}</td>
+                                <td>${{ "%.2f"|format(expense.amount) }}</td>
+                                <td>{{ expense.category }}</td>
+                                <td>{{ expense.expense_date }}</td>
+                                <td>
+                                    <form action="{{ url_for('delete_expense', expense_id=expense.id) }}" method="POST">
+                                        <button class="delete-btn" type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="empty-text">No expenses recorded yet.</p>
+            {% endif %}
+        </section>
     </div>
 </body>
 </html>
