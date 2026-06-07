@@ -4,7 +4,16 @@ import sqlite3
 from datetime import datetime
 from collections import defaultdict
 app = Flask(__name__)
-DB_NAME = "expenses.db"
+
+import os
+import sqlite3
+from flask import Flask, render_template, request, redirect, url_for
+
+app = Flask(__name__)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+DB_NAME = os.path.join(BASE_DIR, "expenses.db")
 
 def get_db_connection():
     conn = sqlite3.connect(DB_NAME)
