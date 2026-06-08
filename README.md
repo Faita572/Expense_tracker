@@ -19,9 +19,3 @@ A lightweight local web application built with Python and Flask to enter, track,
 * **Backend:** Python 3.13, Flask (Web Framework)
 * **Database:** SQLite3 (Embedded Relational DB)
 * **Frontend:** HTML5, CSS3
-
----
-
-## Architecture & Data Flow
-
-The diagram below illustrates how your interactions on the frontend dashboard communicate with the Python backend server to execute query actions inside your database:
