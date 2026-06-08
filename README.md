@@ -1,1 +1,27 @@
-Shows and keeps a record of expenditure
+# 📊 Expense Tracker Dashboard
+
+A sleek, lightweight local web application built with Python and Flask to log, track, and analyze your daily finances. This application replaces manual spreadsheets with a clean, structured dashboard that persists your data safely using a local SQLite database.
+
+---
+
+## 🚀 Features
+
+* **Real-time Financial Metrics:** View your total lifetime spend, current month's total, and total entry count at a glance.
+* **Dynamic Expense Logging:** Easily log expenses with detailed fields for Title, Amount, Category, and Date.
+* **Automated Categorization:** View a live "Category Summary" breakdown that groups your spending habits dynamically.
+* **Persistent SQLite Storage:** Uses structured SQL instead of volatile local memory or flat CSV files, protecting against data corruption.
+* **OneDrive Path Protection:** Includes absolute path routing (`os.path`) to ensure smooth performance even when running inside synced cloud environments.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Backend:** Python 3.13, Flask (Web Framework)
+* **Database:** SQLite3 (Embedded Relational DB)
+* **Frontend:** HTML5, CSS3 (Modern Grid & Flexbox architecture, Jinja2 Templating)
+
+---
+
+## 📂 Architecture & Data Flow
+
+The diagram below illustrates how your interactions on the frontend dashboard communicate with the Python backend server to execute query actions inside your database:
