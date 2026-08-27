@@ -1,5 +1,5 @@
 from typing import Any
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 from datetime import datetime
 from collections import defaultdict
@@ -35,8 +35,10 @@ def init_db():
     conn.commit()
     conn.close()
 
-@app.route('/')
+@app.route("/")
 def index():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
     conn = get_db_connection()
     expenses: list[Any] = conn.execute("SELECT * FROM expenses ORDER BY created_at DESC").fetchall()
     total = conn.execute("SELECT SUM(amount) as total FROM expenses").fetchone()['total'] or 0.0
