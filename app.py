@@ -35,8 +35,8 @@ def init_db():
     conn.commit()
     conn.close()
 
-@app.route("/")
-def index():
+@app.route("/login", methods=["GET", "POST"])
+def login():
     if "user_id" not in session:
         return redirect(url_for("login"))
     conn = get_db_connection()
