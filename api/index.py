@@ -1,7 +1,13 @@
-from app import app, init_db
+import sys
+import os
 
-# Initialize database tables on cold start
-init_db()
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# Exposed serverless handler for Vercel
-app_handler = app
+from app import app, init_db 
+
+try:
+    init_db()
+except Exception as e:
+    print(f"Error initializing database: {e}")  
+
+app = app
